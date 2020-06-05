@@ -3,6 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as firebase from 'firebase';
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPcS-k8A25-VMN-yKlO2bfLmYdyTu08Mk",
+  authDomain: "bracket-game.firebaseapp.com",
+  databaseURL: "https://bracket-game.firebaseio.com",
+  projectId: "bracket-game",
+  storageBucket: "bracket-game.appspot.com",
+  messagingSenderId: "928113672326",
+  appId: "1:928113672326:web:e093a15e0f3f711bcd1107",
+  measurementId: "G-E34PQCVZJ1"
+};
+
+console.log('before');
+firebase.initializeApp(firebaseConfig);
+
+console.log('after');
 
 ReactDOM.render(
   <React.StrictMode>
