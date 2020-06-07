@@ -14,7 +14,7 @@ class App extends Component {
       <div>
         <NavBar />
         <Router>
-          <div>
+          <div className="page">
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
             <Switch>
