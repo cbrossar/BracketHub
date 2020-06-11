@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import NameDialog from "./name-dialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +22,15 @@ function JoinGame() {
 
   const [gameCode, setGameCode] = React.useState("");
   const [joinBtn, setJoinBtn] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleChange = (prop) => (event) => {
     setGameCode(event.target.value.toUpperCase());
@@ -33,7 +44,7 @@ function JoinGame() {
 
   // Todo: add error handling
   return (
-    <div>
+    <Container maxWidth="sm">
       <h1>Enter Game Code</h1>
       <p>Capitalizaton does not matter.</p>
       <form className={classes.root} noValidate autoComplete="off">
@@ -46,12 +57,18 @@ function JoinGame() {
           />
         </div>
         <div className={classes.button}>
-          <Button disabled={joinBtn} variant="contained" color="primary">
+          <Button
+            disabled={joinBtn}
+            variant="contained"
+            color="primary"
+            onClick={handleClickOpen}
+          >
             Join
           </Button>
         </div>
       </form>
-    </div>
+      <NameDialog open={open} handleClose={handleClose} />
+    </Container>
   );
 }
 

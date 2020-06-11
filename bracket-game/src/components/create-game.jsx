@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import { Container } from "@material-ui/core";
 
 class CreateGame extends Component {
   state = {};
   render() {
-    return <h2>Create Game</h2>;
+    return (
+      <Container maxWidth="sm">
+        <h2>Create Game</h2>
+      </Container>
+    );
   }
 }
 

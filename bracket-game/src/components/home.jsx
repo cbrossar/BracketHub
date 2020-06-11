@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Button } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 
 class Home extends Component {
   state = {};
   render() {
     return (
-      <div>
+      <Container maxWidth="sm">
         <div>
           <Button color="primary" href="create-game">
             Create Game
@@ -16,7 +17,7 @@ class Home extends Component {
             Join Game
           </Button>
         </div>
-      </div>
+      </Container>
     );
   }
 }
