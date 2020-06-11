@@ -19,6 +19,7 @@ export default function NameDialog(props) {
         <DialogContent>
           <DialogContentText>Less is more.</DialogContentText>
           <TextField
+            required
             autoFocus
             margin="dense"
             id="name"
@@ -30,7 +31,7 @@ export default function NameDialog(props) {
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={props.handleClose} color="primary" href="lobby">
             Save Name
           </Button>
         </DialogActions>
