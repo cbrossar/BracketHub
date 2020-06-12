@@ -31,7 +31,7 @@ export default function NameDialog(props) {
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleClose} color="primary" href="lobby">
+          <Button onClick={props.handleSaveName} color="primary" href="lobby">
             Save Name
           </Button>
         </DialogActions>

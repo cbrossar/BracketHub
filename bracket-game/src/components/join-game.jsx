@@ -37,7 +37,6 @@ function JoinGame() {
   const handleClickOpen = () => {
     setJoinBtnText("Joining...");
     setJoinBtnColor("default");
-    setErrorGameCode(gameCode);
     setJoinError(false);
 
     console.log(gameCode);
@@ -48,6 +47,7 @@ function JoinGame() {
         setOpen(true);
       } else {
         setJoinError(true);
+        setErrorGameCode(gameCode);
       }
       setJoinBtnText("Join");
       setJoinBtnColor("primary");
@@ -57,6 +57,11 @@ function JoinGame() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSaveName = () => {
+    setOpen(false);
+    localStorage.setItem("gameCode", gameCode);
   };
 
   const handleChange = (prop) => (event) => {
@@ -103,7 +108,11 @@ function JoinGame() {
           </Button>
         </div>
       </form>
-      <NameDialog open={open} handleClose={handleClose} />
+      <NameDialog
+        open={open}
+        handleClose={handleClose}
+        handleSaveName={handleSaveName}
+      />
     </Container>
   );
 }
