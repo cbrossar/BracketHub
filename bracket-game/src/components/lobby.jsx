@@ -7,14 +7,14 @@ class Lobby extends Component {
     super(props);
     const gameCode = localStorage.getItem("gameCode");
 
-    this.state = { gameCode: gameCode, gameName: "Test" };
+    this.state = { gameCode: gameCode, title: "" };
   }
 
   componentDidMount() {
     var gameRef = firebase.database().ref("games/" + this.state.gameCode);
     gameRef.on("value", (snapshot) => {
       if (snapshot.val()) {
-        this.setState({ gameName: snapshot.val().name });
+        this.setState({ title: snapshot.val().name + " Lobby" });
       }
     });
   }
@@ -22,7 +22,7 @@ class Lobby extends Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <h2>{this.state.gameName} Lobby</h2>
+        <h2>{this.state.title}</h2>
       </Container>
     );
   }
