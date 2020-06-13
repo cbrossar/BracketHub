@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Container } from "@material-ui/core";
 
-class CreateGame extends Component {
+class HowToPlay extends Component {
   state = {};
   render() {
     return (
       <Container maxWidth="sm">
-        <h2>Create Game</h2>
+        <h2>How To Play</h2>
       </Container>
     );
   }
 }
 
-export default CreateGame;
+export default HowToPlay;

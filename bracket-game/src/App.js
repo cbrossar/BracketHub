@@ -4,7 +4,8 @@ import Home from "./components/home";
 import NavBar from "./components/navbar";
 import CreateGame from "./components/create-game";
 import JoinGame from "./components/join-game";
-
+import Lobby from "./components/lobby";
+import HowToPlay from "./components/how-to-play";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
       <div>
         <NavBar />
         <Router>
-          <div>
+          <div className="page">
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
             <Switch>
@@ -23,6 +24,12 @@ class App extends Component {
               </Route>
               <Route path="/join-game">
                 <JoinGame />
+              </Route>
+              <Route path="/how-to-play">
+                <HowToPlay />
+              </Route>
+              <Route path="/lobby">
+                <Lobby />
               </Route>
               <Route path="/">
                 <Home />
