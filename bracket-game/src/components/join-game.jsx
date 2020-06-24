@@ -4,8 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import NameDialog from "./name-dialog";
-import firebase from "firebase";
 import { Typography } from "@material-ui/core";
+import db from "../index";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,20 +39,24 @@ function JoinGame() {
     setJoinBtnColor("default");
     setJoinError(false);
 
-    console.log(gameCode);
-    var gameRef = firebase.database().ref("games/" + gameCode);
-    gameRef.on("value", function (snapshot) {
-      console.log(snapshot.val());
-      if (snapshot.val()) {
-        setOpen(true);
-      } else {
-        setJoinError(true);
-        setErrorGameCode(gameCode);
-      }
-      setJoinBtnText("Join");
-      setJoinBtnColor("primary");
-    });
-    console.log("after");
+    db.collection("games")
+      .doc(gameCode)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log(doc.data());
+          setOpen(true);
+        } else {
+          setJoinError(true);
+          setErrorGameCode(gameCode);
+          console.log("No such document!");
+        }
+        setJoinBtnText("Join");
+        setJoinBtnColor("primary");
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      });
   };
 
   const handleClose = () => {
