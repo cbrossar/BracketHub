@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import NameDialog from "./name-dialog";
 import { Typography, TextField, Button, Container } from "@material-ui/core";
 import db from "../index";
-import getRandomAvatar from "../js/random-avatar";
+import { getRandomAvatar } from "./avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
