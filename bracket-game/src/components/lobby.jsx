@@ -20,7 +20,6 @@ class Lobby extends Component {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log(doc.data());
           const data = doc.data();
           this.setState({
             title: data.name + " Lobby",
@@ -44,7 +43,6 @@ class Lobby extends Component {
         this.setState({
           players: users,
         });
-        console.log("Current users in game: ", users);
       });
   }
 

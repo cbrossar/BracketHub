@@ -49,7 +49,6 @@ function JoinGame() {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log(doc.data());
           setOpen(true);
           localStorage.setItem("gameCode", gameCode);
         } else {

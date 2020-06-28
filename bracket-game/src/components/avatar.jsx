@@ -9,7 +9,6 @@ const avatars = {
 };
 
 function getRandomAvatar() {
-  console.log(avatars);
   const keys = Object.keys(avatars);
   const pos = Math.floor(Math.random() * keys.length);
   return keys[pos];

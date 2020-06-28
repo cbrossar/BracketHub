@@ -33,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayerList(props) {
   const classes = useStyles();
 
-  console.log("players list...");
-  console.log("props: ", props);
   const players = [];
 
   props.players.forEach(function (player, index) {
