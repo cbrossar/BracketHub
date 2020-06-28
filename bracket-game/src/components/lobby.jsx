@@ -12,7 +12,10 @@ class Lobby extends Component {
   }
 
   componentDidMount() {
-    db.collection("games")
+    // Create a reference to the games collection
+    var gamesRef = db.collection("games");
+
+    gamesRef
       .doc(this.state.gameCode)
       .get()
       .then((doc) => {
@@ -30,8 +33,9 @@ class Lobby extends Component {
         console.log("Error getting document:", error);
       });
 
-    db.collection("users")
-      .orderBy("games." + this.state.gameCode)
+    gamesRef
+      .doc(this.state.gameCode)
+      .collection("users")
       .onSnapshot((querySnapshot) => {
         var users = [];
         querySnapshot.forEach(function (doc) {
@@ -40,7 +44,7 @@ class Lobby extends Component {
         this.setState({
           players: users,
         });
-        console.log("Current cities in CA: ", users.join(", "));
+        console.log("Current users in game: ", users);
       });
   }
 

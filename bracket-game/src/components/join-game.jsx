@@ -1,11 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import NameDialog from "./name-dialog";
-import { Typography } from "@material-ui/core";
+import { Typography, TextField, Button, Container } from "@material-ui/core";
 import db from "../index";
+import getRandomAvatar from "../js/random-avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getRandomColor() {
+  const colors = ["blue", "pink", "green"];
+  const pos = Math.floor(Math.random() * colors.length);
+  return colors[pos];
+}
+
 function JoinGame() {
   const classes = useStyles();
 
@@ -33,6 +37,7 @@ function JoinGame() {
   const [joinBtnColor, setJoinBtnColor] = React.useState("primary");
   const [joinError, setJoinError] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [playerName, setPlayerName] = React.useState("");
 
   const handleClickOpen = () => {
     setJoinBtnText("Joining...");
@@ -46,6 +51,7 @@ function JoinGame() {
         if (doc.exists) {
           console.log(doc.data());
           setOpen(true);
+          localStorage.setItem("gameCode", gameCode);
         } else {
           setJoinError(true);
           setErrorGameCode(gameCode);
@@ -65,7 +71,22 @@ function JoinGame() {
 
   const handleSaveName = () => {
     setOpen(false);
-    localStorage.setItem("gameCode", gameCode);
+
+    // Add a new document in collection "users"
+    db.collection("games")
+      .doc(gameCode)
+      .collection("users")
+      .add({
+        displayName: playerName,
+        avatar: getRandomAvatar(),
+        color: getRandomColor(),
+      })
+      .then(function () {
+        console.log("Document successfully written!");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
   };
 
   const handleChange = (prop) => (event) => {
@@ -76,6 +97,10 @@ function JoinGame() {
     } else {
       setJoinBtn(true);
     }
+  };
+
+  const handlePlayerChange = (prop) => (event) => {
+    setPlayerName(event.target.value);
   };
 
   // Todo: add error handling
@@ -114,6 +139,8 @@ function JoinGame() {
       </form>
       <NameDialog
         open={open}
+        value={playerName}
+        handlePlayerChange={handlePlayerChange("playerName")}
         handleClose={handleClose}
         handleSaveName={handleSaveName}
       />

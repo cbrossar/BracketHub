@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button, Typography } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
+import { Button, Typography, Container } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 
 const styles = {

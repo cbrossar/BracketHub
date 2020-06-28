@@ -1,18 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import { green, pink } from "@material-ui/core/colors";
-
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
-
-import Divider from "@material-ui/core/Divider";
-import InboxIcon from "@material-ui/icons/Inbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
+import { green, pink, blue } from "@material-ui/core/colors";
+import PlayerAvatar from "./avatar";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     backgroundColor: green[500],
   },
+  blue: {
+    color: "#fff",
+    backgroundColor: blue[500],
+  },
 }));
 
 export default function PlayerList(props) {
@@ -38,36 +38,19 @@ export default function PlayerList(props) {
   const players = [];
 
   props.players.forEach(function (player, index) {
-    players.push(
-      <ListItem button key={index}>
-        <ListItemAvatar>{getAvatar(player.avatar)}</ListItemAvatar>
-
-        <ListItemText primary={player.displayName} />
-      </ListItem>
-    );
-  });
-
-  function getAvatar(type) {
-    if (type === "image") {
-      return (
-        <Avatar className={classes.pink}>
-          <ImageIcon />
-        </Avatar>
-      );
-    } else if (type === "work") {
-      return (
-        <Avatar className={classes.green}>
-          <DraftsIcon />
-        </Avatar>
-      );
-    } else {
-      return (
-        <Avatar>
-          <InboxIcon />
-        </Avatar>
+    if (player) {
+      players.push(
+        <ListItem button key={index}>
+          <ListItemAvatar>
+            <Avatar className={classes[player.color]}>
+              <PlayerAvatar avatar={player.avatar} />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={player.displayName} />
+        </ListItem>
       );
     }
-  }
+  });
 
   return (
     <div className={classes.root}>
