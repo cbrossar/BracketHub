@@ -80,8 +80,9 @@ function JoinGame() {
         avatar: getRandomAvatar(),
         color: getRandomColor(),
       })
-      .then(function () {
-        console.log("Document successfully written!");
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        localStorage.setItem("userID", docRef.id);
       })
       .catch(function (error) {
         console.error("Error writing document: ", error);
