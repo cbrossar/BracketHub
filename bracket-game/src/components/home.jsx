@@ -31,6 +31,8 @@ class Home extends Component {
         .get()
         .then((doc) => {
           if (doc.exists) {
+            console.log(doc);
+            console.log(doc.data());
             console.log("Found the doc");
             gamesRef
               .doc(this.state.gameCode)

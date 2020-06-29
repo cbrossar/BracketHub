@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import NameDialog from "./name-dialog";
 import { Typography, TextField, Button, Container } from "@material-ui/core";
 import db from "../index";
-import { getRandomAvatar } from "./avatar";
+import { getRandomAvatar, getRandomColor } from "./avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getRandomColor() {
-  const colors = ["blue", "pink", "green"];
-  const pos = Math.floor(Math.random() * colors.length);
-  return colors[pos];
-}
+// function getRandomColor() {
+//   const colors = ["blue", "pink", "green"];
+//   const pos = Math.floor(Math.random() * colors.length);
+//   return colors[pos];
+// }
 
 function JoinGame() {
   const classes = useStyles();

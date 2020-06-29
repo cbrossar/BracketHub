@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { green, pink, blue } from "@material-ui/core/colors";
 import PlayerAvatar from "./avatar";
+import { styles } from "./avatar";
 import {
   List,
   ListItem,
@@ -16,18 +16,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-  pink: {
-    color: theme.palette.getContrastText(pink[500]),
-    backgroundColor: pink[500],
-  },
-  green: {
-    color: "#fff",
-    backgroundColor: green[500],
-  },
-  blue: {
-    color: "#fff",
-    backgroundColor: blue[500],
-  },
 }));
 
 export default function PlayerList(props) {
@@ -40,7 +28,7 @@ export default function PlayerList(props) {
       players.push(
         <ListItem button key={index}>
           <ListItemAvatar>
-            <Avatar className={classes[player.color]}>
+            <Avatar style={styles[player.color]}>
               <PlayerAvatar avatar={player.avatar} />
             </Avatar>
           </ListItemAvatar>
