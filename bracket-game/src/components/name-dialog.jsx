@@ -1,11 +1,15 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import { Link } from "react-router-dom";
+
+import {
+  TextField,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
 
 export default function NameDialog(props) {
   return (
@@ -25,15 +29,19 @@ export default function NameDialog(props) {
             id="name"
             label="Display Name"
             fullWidth
+            value={props.value}
+            onChange={props.handlePlayerChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleSaveName} color="primary" href="lobby">
-            Save Name
-          </Button>
+          <Link to="/lobby" style={{ textDecoration: "none" }}>
+            <Button onClick={props.handleSaveName} color="primary">
+              Save Name
+            </Button>
+          </Link>
         </DialogActions>
       </Dialog>
     </div>
