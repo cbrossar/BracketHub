@@ -17,8 +17,10 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 var db = firebase.firestore();
 export default db;
+
 ReactDOM.render(
   // <React.StrictMode>
   <App />,

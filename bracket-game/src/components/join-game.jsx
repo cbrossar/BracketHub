@@ -1,11 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import NameDialog from "./name-dialog";
-import firebase from "firebase";
-import { Typography } from "@material-ui/core";
+import { Typography, TextField, Button, Container } from "@material-ui/core";
+import db from "../index";
+import { getRandomAvatar, getRandomColor } from "./avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,26 +31,31 @@ function JoinGame() {
   const [joinBtnColor, setJoinBtnColor] = React.useState("primary");
   const [joinError, setJoinError] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [playerName, setPlayerName] = React.useState("");
 
   const handleClickOpen = () => {
     setJoinBtnText("Joining...");
     setJoinBtnColor("default");
     setJoinError(false);
 
-    console.log(gameCode);
-    var gameRef = firebase.database().ref("games/" + gameCode);
-    gameRef.on("value", function (snapshot) {
-      console.log(snapshot.val());
-      if (snapshot.val()) {
-        setOpen(true);
-      } else {
-        setJoinError(true);
-        setErrorGameCode(gameCode);
-      }
-      setJoinBtnText("Join");
-      setJoinBtnColor("primary");
-    });
-    console.log("after");
+    db.collection("games")
+      .doc(gameCode)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setOpen(true);
+          localStorage.setItem("gameCode", gameCode);
+        } else {
+          setJoinError(true);
+          setErrorGameCode(gameCode);
+          console.log("No such document!");
+        }
+        setJoinBtnText("Join");
+        setJoinBtnColor("primary");
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      });
   };
 
   const handleClose = () => {
@@ -61,7 +64,23 @@ function JoinGame() {
 
   const handleSaveName = () => {
     setOpen(false);
-    localStorage.setItem("gameCode", gameCode);
+
+    // Add a new document in collection "users"
+    db.collection("games")
+      .doc(gameCode)
+      .collection("users")
+      .add({
+        displayName: playerName,
+        avatar: getRandomAvatar(),
+        color: getRandomColor(),
+      })
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        localStorage.setItem("userID", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
   };
 
   const handleChange = (prop) => (event) => {
@@ -72,6 +91,10 @@ function JoinGame() {
     } else {
       setJoinBtn(true);
     }
+  };
+
+  const handlePlayerChange = (prop) => (event) => {
+    setPlayerName(event.target.value);
   };
 
   // Todo: add error handling
@@ -110,6 +133,8 @@ function JoinGame() {
       </form>
       <NameDialog
         open={open}
+        value={playerName}
+        handlePlayerChange={handlePlayerChange("playerName")}
         handleClose={handleClose}
         handleSaveName={handleSaveName}
       />

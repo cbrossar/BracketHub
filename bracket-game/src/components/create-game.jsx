@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
 import db from "../index";
-//import firebase from firebase;
-import {
-  Typography,
-  Button,
-  MenuItem,
-  Container,
-  Select,
-} from "@material-ui/core";
+import { Grid, Button, Menu, MenuItem, Container, Select, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import OptionalVoteList from "./optional-vote-list";
 
