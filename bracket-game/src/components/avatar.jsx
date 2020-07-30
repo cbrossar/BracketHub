@@ -1,5 +1,4 @@
 import React from "react";
-import { Person } from "@material-ui/icons";
 import {
   AcUnit,
   Adb,
@@ -20,6 +19,7 @@ import {
   SportsSoccer,
   SportsCricket,
   Motorcycle,
+  Person,
 } from "@material-ui/icons";
 import {
   green,

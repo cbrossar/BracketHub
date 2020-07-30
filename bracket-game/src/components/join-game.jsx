@@ -21,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// function getRandomColor() {
-//   const colors = ["blue", "pink", "green"];
-//   const pos = Math.floor(Math.random() * colors.length);
-//   return colors[pos];
-// }
-
 function JoinGame() {
   const classes = useStyles();
 
