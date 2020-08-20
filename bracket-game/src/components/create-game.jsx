@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import db from "../index";
-import { Grid, Button, Menu, MenuItem, Container, Select, TextField, Typography } from '@material-ui/core';
+import { Button, MenuItem, Container, Select, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import OptionalVoteList from "./optional-vote-list";
 

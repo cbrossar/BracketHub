@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CloseIcon from "@material-ui/icons/Close";
@@ -11,7 +9,6 @@ import {
   Typography,
   Select,
   IconButton,
-  Button,
   Accordion,
   AccordionSummary,
   AccordionDetails,

@@ -15,8 +15,17 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+    paddingBottom: "15px",
   },
 }));
+
+const columnStyle = {
+  height: "450px",
+  // display: "flex",
+  // flexDirection: "column",
+  // flexWrap: "wrap",
+  overflow: "auto",
+};
 
 export default function PlayerList(props) {
   const classes = useStyles();
@@ -40,7 +49,11 @@ export default function PlayerList(props) {
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        style={columnStyle}
+        component="nav"
+        aria-label="main mailbox folders"
+      >
         {players}
       </List>
     </div>
