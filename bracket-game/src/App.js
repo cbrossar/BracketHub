@@ -5,6 +5,7 @@ import NavBar from "./components/navbar";
 import CreateGame from "./components/create-game";
 import JoinGame from "./components/join-game";
 import Lobby from "./components/lobby";
+import Game from "./components/game";
 import HowToPlay from "./components/how-to-play";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -30,6 +31,9 @@ class App extends Component {
               </Route>
               <Route path="/lobby">
                 <Lobby />
+              </Route>
+              <Route path="/game">
+                <Game />
               </Route>
               <Route path="/">
                 <Home />
