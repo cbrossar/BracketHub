@@ -1,20 +1,16 @@
 import React, { Component } from "react";
 import { Container, Button } from "@material-ui/core";
 import { storage } from "../index";
+import Bracket from "./bracket";
+import db from "../index";
 
 const headerStyle = {
   textAlign: "center",
 };
 
-const imageLStyle = {
-  width: "40%",
-  paddingTop: "15px",
-};
-
-const imageRStyle = {
-  width: "40%",
-  paddingLeft: "20%",
-  paddingTop: "15px",
+const imageStyle = {
+  width: "100%",
+  verticalAlign: "middle",
 };
 
 const voteLStyle = {
@@ -36,7 +32,6 @@ const labelLStyle = {
 };
 
 const labelRStyle = {
-  //   float: "right",
   width: "40%",
   margin: "5px 0px 5px 20%",
   marginLeft: "20%",
@@ -44,102 +39,114 @@ const labelRStyle = {
   display: "inline-block",
 };
 
-const svgStyle = {
-  width: "100%",
-  height: "50px",
+const boxStyle = {
+  display: "flex",
 };
 
-const turnStyle = {
-  position: "absolute",
-  width: "150px",
-  left: "50%",
-  marginLeft: "-75px",
-  top: "50%",
-  textAlign: "center",
+const frameLStyle = {
+  width: "40%",
+  display: "inline-block",
+  margin: "5px",
 };
 
-const containStyle = {
-  position: "relative",
-  width: "100%",
-  height: "60px",
+const frameRStyle = {
+  width: "40%",
+  display: "inline-block",
+  margin: "5px",
+  marginLeft: "20%",
+  verticalAlign: "middle",
+};
+
+const helperStyle = {
+  display: "inline-block",
+  height: "100%",
+  verticalAlign: "middle",
 };
 
 class Game extends Component {
   constructor() {
     super();
+    const gameCode = localStorage.getItem("gameCode");
+
     this.state = {
-      test1: "",
-      test4: "",
+      gameCode: gameCode,
+      title: "",
+      imageLeft: "",
+      imageRight: "",
+      turnPlayer: "",
+      round: 0,
+      turn: 0,
+      images: [],
+      users: [],
     };
 
-    this.getImage("test1", "jpg");
-    this.getImage("test4", "jpg");
+    this.getImage("5WLCO0", "imageLeft");
+    this.getImage("test3.png", "imageRight");
   }
 
-  getImage(image, extension) {
+  componentDidMount() {
+    // Create a reference to the games collection
+    var gamesRef = db.collection("games");
+
+    gamesRef
+      .doc(this.state.gameCode)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          this.setState({
+            title: data.name + ": Round of " + data.rounds[data.round].length,
+            round: data.round,
+            turn: data.turn,
+            images: data.rounds[data.round].images,
+            users: data.rounds[data.round].users,
+            turnPlayerName: data.rounds[data.round].users[data.turn],
+          });
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+  }
+
+  getImage(image, side) {
     storage
       .ref()
-      .child(`images/${image}.${extension}`)
+      .child(`images/${image}`)
       .getDownloadURL()
       .then((url) => {
-        this.state[image] = url;
-        this.setState(this.state);
+        if (side == "imageLeft") {
+          this.setState({ imageLeft: url });
+        } else {
+          this.setState({ imageRight: url });
+        }
       });
   }
   // set container based on screen size!
   render() {
     return (
       <Container maxWidth="md">
-        <h1 style={headerStyle}>Sexy King: Round of 16</h1>
-        <div id="container" style={containStyle}>
-          <svg style={svgStyle}>
-            <line
-              x1="50%"
-              y1="0"
-              x2="50%"
-              y2="50%"
-              stroke="black"
-              stroke-width="3"
-            />
-            <line
-              x1="50%"
-              y1="50%"
-              x2="25%"
-              y2="50%"
-              stroke="black"
-              stroke-width="3"
-            />
-            <line
-              x1="50%"
-              y1="50%"
-              x2="75%"
-              y2="50%"
-              stroke="black"
-              stroke-width="3"
-            />
-            <line
-              x1="25%"
-              y1="50%"
-              x2="25%"
-              y2="100%"
-              stroke="black"
-              stroke-width="3"
-            />
-            <line
-              x1="75%"
-              y1="50%"
-              x2="75%"
-              y2="100%"
-              stroke="black"
-              stroke-width="3"
-            />
-          </svg>
-          <p style={turnStyle}>Turn: Charlie</p>
-        </div>
-
-        <div>
-          <img style={imageLStyle} src={this.state.test1} alt="test1"></img>
-          <img style={imageRStyle} src={this.state.test4} alt="test2"></img>
+        <h1 style={headerStyle}>{this.state.title}</h1>
+        <Bracket></Bracket>
+        <div style={boxStyle}>
+          <div style={frameLStyle}>
+            <span style={helperStyle}></span>
+            <img
+              style={imageStyle}
+              src={this.state.imageLeft}
+              alt="image left"
+            ></img>
+          </div>
+          <div style={frameRStyle}>
+            <span style={helperStyle}></span>
+            <img
+              style={imageStyle}
+              src={this.state.imageRight}
+              alt="image right"
+            ></img>
+          </div>
         </div>
         <div>
           <p style={labelLStyle}>Machoke</p>
