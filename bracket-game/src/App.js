@@ -6,6 +6,7 @@ import CreateGame from "./components/create-game";
 import JoinGame from "./components/join-game";
 import Lobby from "./components/lobby";
 import HowToPlay from "./components/how-to-play";
+import Contestants from "./components/contestants";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
@@ -30,6 +31,9 @@ class App extends Component {
               </Route>
               <Route path="/lobby">
                 <Lobby />
+              </Route>
+              <Route path="/contestants">
+                <Contestants />
               </Route>
               <Route path="/">
                 <Home />

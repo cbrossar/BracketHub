@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import db from "../index";
-import { Grid, Button, Menu, MenuItem, Container, Select, TextField, Typography } from '@material-ui/core';
+import { Link } from "react-router-dom";
+import {
+  Grid,
+  Button,
+  Menu,
+  MenuItem,
+  Container,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import OptionalVoteList from "./optional-vote-list";
 
@@ -28,14 +38,19 @@ function CreateGame() {
   const handleBracketChange = (event) => {
     setBracketSize(event.target.value);
   };
+
   const gameNameChange = (event) => {
     setGameName(event.target.value);
   };
+
   React.useEffect(() => {
     setVoteOptions(voteOptionRef.current.state.voteOptions);
   });
+
   const nextPageFunction = (event) => {
     var gameCode = genGameCode();
+    localStorage.setItem("gameCode", gameCode);
+    localStorage.setItem("gameStatus", "creating");
     //Create new game in db and add game options to it
     db.collection("games")
       .doc(gameCode)
@@ -51,12 +66,13 @@ function CreateGame() {
       .catch(function (error) {
         console.error("Error writing document: ", error);
       });
+
     //Route to contestants page
     //log all options to console
     // console.log("Game Name: ", gameName);
     // console.log("Bracket Size: ", bracketSize);
     // console.log(voteOptions);
-    // console.log("generatedCode: ", gameCode);
+    console.log("generatedCode: ", gameCode);
   };
   function genGameCode() {
     var code = Math.random().toString(36).substr(2, 5).toUpperCase();
@@ -98,14 +114,16 @@ function CreateGame() {
   );
   const nextPageButton = (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.allMargin}
-        onClick={nextPageFunction}
-      >
-        Next Step
-      </Button>
+      <Link to="/contestants">
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.allMargin}
+          onClick={nextPageFunction}
+        >
+          Next Step
+        </Button>
+      </Link>
     </div>
   );
   return (
