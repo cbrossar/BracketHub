@@ -73,11 +73,11 @@ class Game extends Component {
       title: "",
       imageLeft: "",
       imageRight: "",
-      turnPlayer: "",
       round: 0,
       turn: 0,
       images: [],
       users: [],
+      turnPlayerName: "",
     };
 
     this.getImage("5WLCO0", "imageLeft");
@@ -94,14 +94,17 @@ class Game extends Component {
       .then((doc) => {
         if (doc.exists) {
           const data = doc.data();
+          console.log(data.rounds[data.round].users[0]);
           this.setState({
-            title: data.name + ": Round of " + data.rounds[data.round].length,
+            title:
+              data.name + ": Round of " + data.rounds[data.round].images.length,
             round: data.round,
-            turn: data.turn,
+            turn: data.rounds[data.round].turn,
             images: data.rounds[data.round].images,
             users: data.rounds[data.round].users,
-            turnPlayerName: data.rounds[data.round].users[data.turn],
+            turnPlayerName: data.rounds[data.round].users[0],
           });
+          console.log(this.state);
         } else {
           console.log("No such document!");
         }
@@ -129,7 +132,7 @@ class Game extends Component {
     return (
       <Container maxWidth="md">
         <h1 style={headerStyle}>{this.state.title}</h1>
-        <Bracket></Bracket>
+        <Bracket turnPlayerName={this.state.turnPlayerName}></Bracket>
         <div style={boxStyle}>
           <div style={frameLStyle}>
             <span style={helperStyle}></span>

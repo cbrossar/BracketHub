@@ -22,7 +22,9 @@ const containStyle = {
 
 class Bracket extends Component {
   state = {};
+
   render() {
+    console.log(this.props);
     return (
       <div id="container" style={containStyle}>
         <svg style={svgStyle}>
@@ -67,7 +69,7 @@ class Bracket extends Component {
             strokeWidth="3"
           />
         </svg>
-        <p style={turnStyle}>Turn: Charlie</p>
+        <p style={turnStyle}>Turn: {this.props.turnPlayerName}</p>
       </div>
     );
   }
