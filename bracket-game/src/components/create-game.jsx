@@ -1,6 +1,15 @@
 import React from "react";
 import db from "../index";
-import { Button, MenuItem, Container, Select, TextField, Typography } from '@material-ui/core';
+import { Redirect } from "react-router-dom";
+import {
+  Button,
+  MenuItem,
+  Container,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import OptionalVoteList from "./optional-vote-list";
 
@@ -17,25 +26,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateGame() {
+function CreateGame(props) {
   const classes = useStyles();
   const voteOptionRef = React.createRef();
   //useState hooks
   const [bracketSize, setBracketSize] = React.useState("16");
   const [gameName, setGameName] = React.useState("Bracket Game");
   const [voteOptions, setVoteOptions] = React.useState();
+  const [redirecting, setRedirecting] = React.useState(false);
+
   //Event handlers
   const handleBracketChange = (event) => {
     setBracketSize(event.target.value);
   };
+
   const gameNameChange = (event) => {
     setGameName(event.target.value);
   };
+
   React.useEffect(() => {
     setVoteOptions(voteOptionRef.current.state.voteOptions);
   });
+
   const nextPageFunction = (event) => {
     var gameCode = genGameCode();
+    localStorage.setItem("gameCode", gameCode);
+    localStorage.setItem("gameStatus", "creating");
     //Create new game in db and add game options to it
     db.collection("games")
       .doc(gameCode)
@@ -47,16 +63,18 @@ function CreateGame() {
       })
       .then(function () {
         console.log("Document successfully written!");
+        setRedirecting(true);
       })
       .catch(function (error) {
         console.error("Error writing document: ", error);
       });
+
     //Route to contestants page
     //log all options to console
     // console.log("Game Name: ", gameName);
     // console.log("Bracket Size: ", bracketSize);
     // console.log(voteOptions);
-    // console.log("generatedCode: ", gameCode);
+    console.log("generatedCode: ", gameCode);
   };
   function genGameCode() {
     var code = Math.random().toString(36).substr(2, 5).toUpperCase();
@@ -118,6 +136,7 @@ function CreateGame() {
         {sizeDropdown}
         <OptionalVoteList ref={voteOptionRef} />
         {nextPageButton}
+        {redirecting ? <Redirect push to="/contestants" /> : <div></div>}
       </form>
     </Container>
   );
