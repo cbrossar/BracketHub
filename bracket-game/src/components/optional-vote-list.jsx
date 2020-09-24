@@ -12,8 +12,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  TextField,
 } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   option_title: {

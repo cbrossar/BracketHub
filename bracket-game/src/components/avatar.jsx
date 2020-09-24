@@ -18,7 +18,6 @@ import {
   SmokingRooms,
   SportsSoccer,
   SportsCricket,
-  Motorcycle,
   Person,
 } from "@material-ui/icons";
 import {
