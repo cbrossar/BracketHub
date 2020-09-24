@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Button } from "@material-ui/core";
+import { Container, Button, Typography } from "@material-ui/core";
 import db from "../index";
 import PlayerList from "./player-list";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -61,12 +61,17 @@ class Lobby extends Component {
 
   render() {
     return (
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <h2>{this.state.title}</h2>
         <PlayerList players={this.state.players} />
-        <Button color="primary" variant="contained">
+        {/* <Button color="primary" variant="contained">
           Start Game
-        </Button>
+        </Button> */}
+        <Typography align="center">
+          <Button color="primary" variant="contained" href="game">
+            Start Game
+          </Button>
+        </Typography>
         <p>
           To invite your friends to join, have them use game code{" "}
           <code style={gameCodeStyle}>{this.state.gameCode}</code>
