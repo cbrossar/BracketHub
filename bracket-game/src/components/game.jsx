@@ -157,8 +157,24 @@ class Game extends Component {
         this.setState({ [side]: url });
       });
   }
+
   // set container based on screen size!
   render() {
+    const handleNext = () => {
+      // db.collection("games")
+      //   .doc(this.state.gameCode)
+      //   .add({
+      //     match: 1,
+      //   })
+      //   .then(function (docRef) {
+      //     console.log("Document written with ID: ", docRef.id);
+      //     // localStorage.setItem("userID", docRef.id);
+      //   })
+      //   .catch(function (error) {
+      //     console.error("Error writing document: ", error);
+      //   });
+    };
+
     console.log(this.state);
     return (
       <Container maxWidth="md">
@@ -192,6 +208,11 @@ class Game extends Component {
           </Button>
           <Button style={voteRStyle} color="primary" variant="contained">
             Vote
+          </Button>
+        </div>
+        <div style={{ paddingTop: "10px", paddingLeft: "800px" }}>
+          <Button onClick={handleNext} color="primary" variant="contained">
+            Next
           </Button>
         </div>
       </Container>
