@@ -35,6 +35,7 @@ class App extends Component {
               </Route>
               <Route path="/contestants">
                 <Contestants />
+              </Route>
               <Route path="/game">
                 <Game />
               </Route>
