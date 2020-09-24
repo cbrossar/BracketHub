@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import db from "../index";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
-  Grid,
   Button,
-  Menu,
   MenuItem,
   Container,
   Select,
@@ -27,13 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateGame() {
+function CreateGame(props) {
   const classes = useStyles();
   const voteOptionRef = React.createRef();
   //useState hooks
   const [bracketSize, setBracketSize] = React.useState("16");
   const [gameName, setGameName] = React.useState("Bracket Game");
   const [voteOptions, setVoteOptions] = React.useState();
+  const [redirecting, setRedirecting] = React.useState(false);
+
   //Event handlers
   const handleBracketChange = (event) => {
     setBracketSize(event.target.value);
@@ -62,6 +62,7 @@ function CreateGame() {
       })
       .then(function () {
         console.log("Document successfully written!");
+        setRedirecting(true);
       })
       .catch(function (error) {
         console.error("Error writing document: ", error);
@@ -114,16 +115,14 @@ function CreateGame() {
   );
   const nextPageButton = (
     <div>
-      <Link to="/contestants">
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.allMargin}
-          onClick={nextPageFunction}
-        >
-          Next Step
-        </Button>
-      </Link>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.allMargin}
+        onClick={nextPageFunction}
+      >
+        Next Step
+      </Button>
     </div>
   );
   return (
@@ -136,6 +135,7 @@ function CreateGame() {
         {sizeDropdown}
         <OptionalVoteList ref={voteOptionRef} />
         {nextPageButton}
+        {redirecting ? <Redirect push to="/contestants" /> : <div></div>}
       </form>
     </Container>
   );

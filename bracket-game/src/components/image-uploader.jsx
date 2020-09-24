@@ -1,19 +1,9 @@
 import React, { Component } from "react";
-import { storage } from "../index";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckIcon from "@material-ui/icons/Check";
-import {
-  Grid,
-  Button,
-  Menu,
-  MenuItem,
-  Container,
-  Select,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 
 class ImageUploader extends Component {
   constructor(props) {
@@ -24,18 +14,18 @@ class ImageUploader extends Component {
       progress: 0,
       index: this.props.index,
     };
-    console.log(this.props);
   }
 
   render() {
     const { onImageChange, onNameChange, index } = this.props;
-    console.log(index);
+    //console.log(index);
     return (
       <div>
         {this.state.index}
         <Grid container direction="row">
           <Grid item>
             <TextField
+              //id={this.props.index.toString()}
               label="Contestant Name"
               onChange={(e) => onNameChange(e, this.props.index)}
             />
@@ -43,13 +33,13 @@ class ImageUploader extends Component {
           <Grid item>
             <input
               accept="image/*"
-              id="icon-button-file"
+              id={index.toString()}
               type="file"
               onChange={(e) => onImageChange(e, this.state.index)}
               style={{ display: "none" }}
-            ></input>
+            />
 
-            <label htmlFor="icon-button-file">
+            <label htmlFor={index.toString()}>
               <IconButton
                 color="primary"
                 aria-label="upload picture"
@@ -60,7 +50,7 @@ class ImageUploader extends Component {
             </label>
           </Grid>
           <Grid>
-            {this.props.progress == 100 ? (
+            {this.props.progress === 100 ? (
               <CheckIcon />
             ) : (
               <CircularProgress
