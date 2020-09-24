@@ -71,17 +71,17 @@ class Game extends Component {
     this.state = {
       gameCode: gameCode,
       title: "",
-      imageLeft: "",
-      imageRight: "",
+      imageLeftURL: "",
+      imageLeft: { label: "" },
+      imageRight: { label: "" },
+      imageRightURL: "",
       round: 0,
       turn: 0,
+      match: 0,
       images: [],
       users: [],
       turnPlayerName: "",
     };
-
-    this.getImage("5WLCO0", "imageLeft");
-    this.getImage("test3.png", "imageRight");
   }
 
   componentDidMount() {
@@ -94,7 +94,6 @@ class Game extends Component {
       .then((doc) => {
         if (doc.exists) {
           const data = doc.data();
-          console.log(data.rounds[data.round].users[0]);
           this.setState({
             title:
               data.name + ": Round of " + data.rounds[data.round].images.length,
@@ -102,8 +101,43 @@ class Game extends Component {
             turn: data.rounds[data.round].turn,
             images: data.rounds[data.round].images,
             users: data.rounds[data.round].users,
-            turnPlayerName: data.rounds[data.round].users[0],
+            turnPlayerName:
+              data.rounds[data.round].users[data.rounds[data.round].turn],
+            match: data.rounds[data.round].match,
           });
+        } else {
+          console.log("No such document!");
+        }
+        this.getImageDetails(
+          doc,
+          this.state.images[this.state.match * 2],
+          "imageLeft"
+        );
+        this.getImageDetails(
+          doc,
+          this.state.images[this.state.match * 2 + 1],
+          "imageRight"
+        );
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+  }
+
+  getImageDetails(doc, sub_doc_id, side) {
+    doc.ref
+      .collection("images")
+      .doc(sub_doc_id)
+      .get()
+      .then((sub_doc) => {
+        console.log(sub_doc.id, " => ", sub_doc.data());
+        if (sub_doc.exists) {
+          const data = sub_doc.data();
+          this.setState({
+            [side]: data,
+          });
+          this.downloadImage(data[["filename"]], side + "URL");
+
           console.log(this.state);
         } else {
           console.log("No such document!");
@@ -114,21 +148,18 @@ class Game extends Component {
       });
   }
 
-  getImage(image, side) {
+  downloadImage(image, side) {
     storage
       .ref()
       .child(`images/${image}`)
       .getDownloadURL()
       .then((url) => {
-        if (side == "imageLeft") {
-          this.setState({ imageLeft: url });
-        } else {
-          this.setState({ imageRight: url });
-        }
+        this.setState({ [side]: url });
       });
   }
   // set container based on screen size!
   render() {
+    console.log(this.state);
     return (
       <Container maxWidth="md">
         <h1 style={headerStyle}>{this.state.title}</h1>
@@ -138,22 +169,22 @@ class Game extends Component {
             <span style={helperStyle}></span>
             <img
               style={imageStyle}
-              src={this.state.imageLeft}
-              alt="image left"
+              src={this.state.imageLeftURL}
+              alt="left"
             ></img>
           </div>
           <div style={frameRStyle}>
             <span style={helperStyle}></span>
             <img
               style={imageStyle}
-              src={this.state.imageRight}
-              alt="image right"
+              src={this.state.imageRightURL}
+              alt="right"
             ></img>
           </div>
         </div>
         <div>
-          <p style={labelLStyle}>Machoke</p>
-          <p style={labelRStyle}>Drake</p>
+          <p style={labelLStyle}>{this.state.imageLeft.label}</p>
+          <p style={labelRStyle}>{this.state.imageRight.label}</p>
         </div>
         <div>
           <Button style={voteLStyle} color="primary" variant="contained">

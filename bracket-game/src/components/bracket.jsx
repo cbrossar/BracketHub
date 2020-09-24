@@ -24,7 +24,6 @@ class Bracket extends Component {
   state = {};
 
   render() {
-    console.log(this.props);
     return (
       <div id="container" style={containStyle}>
         <svg style={svgStyle}>
